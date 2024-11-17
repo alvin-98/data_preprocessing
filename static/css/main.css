@@ -1,0 +1,39 @@
+/* Base styles */
+@import "base/variables.css";
+@import "base/reset.css";
+@import "base/typography.css";
+
+/* Components */
+@import "components/buttons.css";
+@import "components/cards.css";
+@import "components/forms.css";
+@import "components/grid.css";
+@import "components/media.css";
+
+/* Utils */
+@import "utils/animations.css";
+@import "utils/helpers.css";
+
+/* Apply base styles */
+body {
+  background-color: var(--bg-main);
+  min-height: 100vh;
+  padding: var(--spacing-xl);
+  font-family: "Inter", sans-serif;
+  color: var(--text-primary);
+}
+
+.container {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+/* Dark mode styles */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}

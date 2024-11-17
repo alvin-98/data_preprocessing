@@ -1,0 +1,34 @@
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.audio-player-container {
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md);
+  background-color: var(--bg-main);
+  border-radius: var(--radius-sm);
+}
+
+.audio-player {
+  width: 100%;
+  margin-bottom: var(--spacing-sm);
+}
+
+.audio-info {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.content-display {
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  white-space: pre-wrap;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: monospace;
+  background-color: var(--bg-input);
+}
