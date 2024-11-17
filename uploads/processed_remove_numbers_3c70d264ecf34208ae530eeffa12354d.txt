@@ -1,0 +1,96 @@
+Time Zone : Asia/Calcutta
+Chat Started : Sun,  Sep  ::
+
+
+(Sun,  Sep  ::) Sarah : ContactDetailsForm: 
+We would like to know you
+
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Name ALVIN VINOD CHANDRAN Email Id alvincav@gmail.com
+ContactDetailsPostBack: Name: ALVIN VINOD CHANDRAN Email Id: alvincav@gmail.com 
+This service may process personal data for flight information and assistance, 
+and recordings may be kept for various purposes such as training and quality 
+control.: true
+
+(Sun,  Sep  ::) Anonymous User : Card: Hello! : I am Sara your virtual chat assistant 🤖. How may I help you? 
+You can type in your query or select from the options below.Type 'Etihad' to go 
+back to the main menu. Zayed International Airport – Terminal A, Travel 
+Guidelines and Transit Information, Booking, Etihad Guest Programme, Baggage, 
+Flight Status, Others
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Baggage
+TextPostBack: Baggage
+
+(Sun,  Sep  ::) Anonymous User : Select from the options below:
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Baggage Allowance
+TextPostBack: Baggage Allowance
+
+(Sun,  Sep  ::) Anonymous User : Have you already booked with us?
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Yes
+TextPostBack: Yes
+
+(Sun,  Sep  ::) Sarah : Please enter your booking reference or ticket number
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : KKQZKJ
+
+(Sun,  Sep  ::) Sarah : Please provide your last name
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Chandran
+
+(Sun,  Sep  ::) Sarah : Thanks, I’m looking for your booking
+
+(Sun,  Sep  ::) Sarah : Great, I found your booking
+
+(Sun,  Sep  ::) Sarah : RichTextCarousel: Carousel: : Alvin Vinod ChandranBengaluru to LondonSeptember 
+,  Baggage AllowanceCabin:  kgChecked-in:  kgExtra:  kg
+
+(Sun,  Sep  ::) Sarah : RichTextCarousel: Carousel: : Check-in bag:For checked-in bags, it cannot be 
+bigger than  cm (width) x  cm (height) x  cm (depth).If you are flying in 
+Economy to the US or Canada, you can check in two bags weighing up to kg 
+each. While guests in Business and First Class can check in two bags weighing 
+up to  kg each. For all other destinations, you can check in as many bags as 
+you like as long as the total weight is within your baggage allowance. No 
+single bag may exceed kg.Cabin Bag:If you are travelling in Economy, you can 
+carry one cabin bag weighing up to kg. It cannot be bigger than  cm x  cm 
+x  cm. You are not permitted to carry an additional personal item on board.If 
+you are travelling in Business or First Class, you can carry two cabin bags 
+with a combined weight of up to kg. Each bag cannot be bigger than  cm x  
+cm x  cm. You can also carry one personal item – like a laptop bag – weighing 
+up to kg. It cannot be bigger than  cm x  cm x  cm.
+
+(Sun,  Sep  ::) Sarah : *This baggage information is only based on the type of ticket you book and 
+where you’re flying to. If you are a member of the Etihad Guest Program, the 
+additional baggage allowance applicable to your Tier level can be found at 
+etihadguest.com.
+
+(Sun,  Sep  ::) Sarah : Would you like to know more about extra baggage or children baggage allowance?
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Yes
+TextPostBack: Yes
+
+(Sun,  Sep  ::) Anonymous User : Card: Please choose from the options below: Recalculate baggage allowance, Add 
+Extra Bags, Children's Allowance, Main Menu
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Main Menu
+TextPostBack: Main Menu
+
+(Sun,  Sep  ::) Anonymous User : Card: Hello! : I am Sara your virtual chat assistant 🤖. How may I help you? 
+You can type in your query or select from the options below.Type 'Etihad' to go 
+back to the main menu. Zayed International Airport – Terminal A, Travel 
+Guidelines and Transit Information, Booking, Etihad Guest Programme, Baggage, 
+Flight Status, Others
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Others
+TextPostBack: Others
+
+(Sun,  Sep  ::) Anonymous User : Card: Please choose from the below: Etihad Credit, Special Services, Online 
+Check-In , Connect to agent
+
+(Sun,  Sep  ::) ALVIN VINOD CHANDRAN : Connect to agent
+TextPostBack: Connect to agent
+
+(Sun,  Sep  ::) Sarah : Before I connect you to an agent, I'll try to resolve your issue. Please type 
+your query below.
+

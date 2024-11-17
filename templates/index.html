@@ -4,42 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <title>Data Processing</title>
+    <title>Data Processing Lab</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link href="/static/styles.css" rel="stylesheet" />
     <script>
-      // Immediately set initial theme to prevent flash of wrong theme
       const savedTheme = localStorage.getItem("theme") || "light";
       document.documentElement.setAttribute("data-theme", savedTheme);
     </script>
   </head>
   <body>
     <div class="container">
-      <h1 class="page-title">Image Processing Lab</h1>
+      <h1 class="page-title">Data Processing Lab</h1>
 
-      <!-- Upload Image -->
+      <!-- Data Type Selection -->
       <div class="card">
+        <h2 class="section-title">Select Data Type</h2>
+        <div class="data-type-selector">
+          <button class="btn btn-type" data-type="image">
+            <span class="icon">🖼️</span>
+            <span>Image Data</span>
+          </button>
+          <button class="btn btn-type" data-type="text">
+            <span class="icon">📝</span>
+            <span>Text Data</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Upload Section -->
+      <div id="uploadSection" class="card hidden">
         <form id="uploadForm">
-          <label class="form-label">Upload Image</label>
+          <label class="form-label">Upload File</label>
           <input
             type="file"
             name="file"
             id="file"
             class="form-input"
             required
-            accept="image/*"
           />
           <button type="submit" class="btn btn-primary">Upload</button>
         </form>
       </div>
 
-      <!-- Process Image -->
-      <div id="processSection" class="card hidden">
-        <h2 class="section-title">Select Modifications</h2>
-        <form id="processForm">
+      <!-- Process Section for Images -->
+      <div id="imageProcessSection" class="card hidden">
+        <h2 class="section-title">Image Modifications</h2>
+        <form id="imageProcessForm">
           <div class="checkbox-grid">
             <label class="checkbox-label">
               <input type="checkbox" name="actions" value="grayscale" />
@@ -64,12 +77,56 @@
         </form>
       </div>
 
-      <!-- Images Display -->
-      <div class="image-container" id="imageResults">
-        <div id="originalImage" class="image-card hidden">
-          <h3 class="image-title">Original Image</h3>
-          <img src="" alt="Original" class="image" />
+      <!-- Process Section for Text -->
+      <div id="textProcessSection" class="card hidden">
+        <h2 class="section-title">Text Modifications</h2>
+        <form id="textProcessForm">
+          <div class="checkbox-grid">
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="lowercase" />
+              <span>Convert to Lowercase</span>
+            </label>
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                name="actions"
+                value="remove_punctuation"
+              />
+              <span>Remove Punctuation</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="remove_numbers" />
+              <span>Remove Numbers</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="remove_stopwords" />
+              <span>Remove Stop Words</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="lemmatize" />
+              <span>Lemmatization</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="stem" />
+              <span>Stemming</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-success">
+            Process Selected
+          </button>
+        </form>
+      </div>
+
+      <!-- Results Display -->
+      <div class="results-container" id="resultsSection">
+        <!-- Original Content -->
+        <div id="originalContent" class="content-card hidden">
+          <h3 class="content-title">Original Content</h3>
+          <div class="content-display"></div>
         </div>
+
+        <!-- Processed Content -->
+        <div id="processedContent" class="content-grid"></div>
       </div>
     </div>
 

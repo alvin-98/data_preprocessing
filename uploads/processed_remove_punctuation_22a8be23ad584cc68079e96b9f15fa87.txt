@@ -1,0 +1,96 @@
+Time Zone  AsiaCalcutta
+Chat Started  Sun 8 Sep 2024 134345
+
+
+Sun 8 Sep 2024 134345 Sarah  ContactDetailsForm 
+We would like to know you
+
+
+Sun 8 Sep 2024 134353 ALVIN VINOD CHANDRAN  Name ALVIN VINOD CHANDRAN Email Id alvincavgmailcom
+ContactDetailsPostBack Name ALVIN VINOD CHANDRAN Email Id alvincavgmailcom 
+This service may process personal data for flight information and assistance 
+and recordings may be kept for various purposes such as training and quality 
+control true
+
+Sun 8 Sep 2024 134356 Anonymous User  Card Hello  I am Sara your virtual chat assistant 🤖 How may I help you 
+You can type in your query or select from the options belowType Etihad to go 
+back to the main menu Zayed International Airport – Terminal A Travel 
+Guidelines and Transit Information Booking Etihad Guest Programme Baggage 
+Flight Status Others
+
+Sun 8 Sep 2024 134400 ALVIN VINOD CHANDRAN  Baggage
+TextPostBack Baggage
+
+Sun 8 Sep 2024 134401 Anonymous User  Select from the options below
+
+Sun 8 Sep 2024 134406 ALVIN VINOD CHANDRAN  Baggage Allowance
+TextPostBack Baggage Allowance
+
+Sun 8 Sep 2024 134407 Anonymous User  Have you already booked with us
+
+Sun 8 Sep 2024 134409 ALVIN VINOD CHANDRAN  Yes
+TextPostBack Yes
+
+Sun 8 Sep 2024 134411 Sarah  Please enter your booking reference or ticket number
+
+Sun 8 Sep 2024 134424 ALVIN VINOD CHANDRAN  KKQZKJ
+
+Sun 8 Sep 2024 134426 Sarah  Please provide your last name
+
+Sun 8 Sep 2024 134429 ALVIN VINOD CHANDRAN  Chandran
+
+Sun 8 Sep 2024 134430 Sarah  Thanks I’m looking for your booking
+
+Sun 8 Sep 2024 134434 Sarah  Great I found your booking
+
+Sun 8 Sep 2024 134434 Sarah  RichTextCarousel Carousel  Alvin Vinod ChandranBengaluru to LondonSeptember 
+19 2024 Baggage AllowanceCabin 7 kgCheckedin 30 kgExtra 10 kg
+
+Sun 8 Sep 2024 134434 Sarah  RichTextCarousel Carousel  Checkin bagFor checkedin bags it cannot be 
+bigger than 72 cm width x 90 cm height x 45 cm depthIf you are flying in 
+Economy to the US or Canada you can check in two bags weighing up to 23kg 
+each While guests in Business and First Class can check in two bags weighing 
+up to 32 kg each For all other destinations you can check in as many bags as 
+you like as long as the total weight is within your baggage allowance No 
+single bag may exceed 32kgCabin BagIf you are travelling in Economy you can 
+carry one cabin bag weighing up to 7kg It cannot be bigger than 56 cm x 36 cm 
+x 23 cm You are not permitted to carry an additional personal item on boardIf 
+you are travelling in Business or First Class you can carry two cabin bags 
+with a combined weight of up to 12kg Each bag cannot be bigger than 56 cm x 36 
+cm x 23 cm You can also carry one personal item – like a laptop bag – weighing 
+up to 5kg It cannot be bigger than 23 cm x 39 cm x 19 cm
+
+Sun 8 Sep 2024 134434 Sarah  This baggage information is only based on the type of ticket you book and 
+where you’re flying to If you are a member of the Etihad Guest Program the 
+additional baggage allowance applicable to your Tier level can be found at 
+etihadguestcom
+
+Sun 8 Sep 2024 134436 Sarah  Would you like to know more about extra baggage or children baggage allowance
+
+Sun 8 Sep 2024 134521 ALVIN VINOD CHANDRAN  Yes
+TextPostBack Yes
+
+Sun 8 Sep 2024 134522 Anonymous User  Card Please choose from the options below Recalculate baggage allowance Add 
+Extra Bags Childrens Allowance Main Menu
+
+Sun 8 Sep 2024 134602 ALVIN VINOD CHANDRAN  Main Menu
+TextPostBack Main Menu
+
+Sun 8 Sep 2024 134603 Anonymous User  Card Hello  I am Sara your virtual chat assistant 🤖 How may I help you 
+You can type in your query or select from the options belowType Etihad to go 
+back to the main menu Zayed International Airport – Terminal A Travel 
+Guidelines and Transit Information Booking Etihad Guest Programme Baggage 
+Flight Status Others
+
+Sun 8 Sep 2024 134605 ALVIN VINOD CHANDRAN  Others
+TextPostBack Others
+
+Sun 8 Sep 2024 134607 Anonymous User  Card Please choose from the below Etihad Credit Special Services Online 
+CheckIn  Connect to agent
+
+Sun 8 Sep 2024 134610 ALVIN VINOD CHANDRAN  Connect to agent
+TextPostBack Connect to agent
+
+Sun 8 Sep 2024 134611 Sarah  Before I connect you to an agent Ill try to resolve your issue Please type 
+your query below
+

@@ -1,0 +1,96 @@
+time zone : asia/calcutta
+chat started : sun, 8 sep 2024 13:43:45
+
+
+(sun, 8 sep 2024 13:43:45) sarah : contactdetailsform: 
+we would like to know you
+
+
+(sun, 8 sep 2024 13:43:53) alvin vinod chandran : name alvin vinod chandran email id alvincav@gmail.com
+contactdetailspostback: name: alvin vinod chandran email id: alvincav@gmail.com 
+this service may process personal data for flight information and assistance, 
+and recordings may be kept for various purposes such as training and quality 
+control.: true
+
+(sun, 8 sep 2024 13:43:56) anonymous user : card: hello! : i am sara your virtual chat assistant 🤖. how may i help you? 
+you can type in your query or select from the options below.type 'etihad' to go 
+back to the main menu. zayed international airport – terminal a, travel 
+guidelines and transit information, booking, etihad guest programme, baggage, 
+flight status, others
+
+(sun, 8 sep 2024 13:44:00) alvin vinod chandran : baggage
+textpostback: baggage
+
+(sun, 8 sep 2024 13:44:01) anonymous user : select from the options below:
+
+(sun, 8 sep 2024 13:44:06) alvin vinod chandran : baggage allowance
+textpostback: baggage allowance
+
+(sun, 8 sep 2024 13:44:07) anonymous user : have you already booked with us?
+
+(sun, 8 sep 2024 13:44:09) alvin vinod chandran : yes
+textpostback: yes
+
+(sun, 8 sep 2024 13:44:11) sarah : please enter your booking reference or ticket number
+
+(sun, 8 sep 2024 13:44:24) alvin vinod chandran : kkqzkj
+
+(sun, 8 sep 2024 13:44:26) sarah : please provide your last name
+
+(sun, 8 sep 2024 13:44:29) alvin vinod chandran : chandran
+
+(sun, 8 sep 2024 13:44:30) sarah : thanks, i’m looking for your booking
+
+(sun, 8 sep 2024 13:44:34) sarah : great, i found your booking
+
+(sun, 8 sep 2024 13:44:34) sarah : richtextcarousel: carousel: : alvin vinod chandranbengaluru to londonseptember 
+19, 2024 baggage allowancecabin: 7 kgchecked-in: 30 kgextra: 10 kg
+
+(sun, 8 sep 2024 13:44:34) sarah : richtextcarousel: carousel: : check-in bag:for checked-in bags, it cannot be 
+bigger than 72 cm (width) x 90 cm (height) x 45 cm (depth).if you are flying in 
+economy to the us or canada, you can check in two bags weighing up to 23kg 
+each. while guests in business and first class can check in two bags weighing 
+up to 32 kg each. for all other destinations, you can check in as many bags as 
+you like as long as the total weight is within your baggage allowance. no 
+single bag may exceed 32kg.cabin bag:if you are travelling in economy, you can 
+carry one cabin bag weighing up to 7kg. it cannot be bigger than 56 cm x 36 cm 
+x 23 cm. you are not permitted to carry an additional personal item on board.if 
+you are travelling in business or first class, you can carry two cabin bags 
+with a combined weight of up to 12kg. each bag cannot be bigger than 56 cm x 36 
+cm x 23 cm. you can also carry one personal item – like a laptop bag – weighing 
+up to 5kg. it cannot be bigger than 23 cm x 39 cm x 19 cm.
+
+(sun, 8 sep 2024 13:44:34) sarah : *this baggage information is only based on the type of ticket you book and 
+where you’re flying to. if you are a member of the etihad guest program, the 
+additional baggage allowance applicable to your tier level can be found at 
+etihadguest.com.
+
+(sun, 8 sep 2024 13:44:36) sarah : would you like to know more about extra baggage or children baggage allowance?
+
+(sun, 8 sep 2024 13:45:21) alvin vinod chandran : yes
+textpostback: yes
+
+(sun, 8 sep 2024 13:45:22) anonymous user : card: please choose from the options below: recalculate baggage allowance, add 
+extra bags, children's allowance, main menu
+
+(sun, 8 sep 2024 13:46:02) alvin vinod chandran : main menu
+textpostback: main menu
+
+(sun, 8 sep 2024 13:46:03) anonymous user : card: hello! : i am sara your virtual chat assistant 🤖. how may i help you? 
+you can type in your query or select from the options below.type 'etihad' to go 
+back to the main menu. zayed international airport – terminal a, travel 
+guidelines and transit information, booking, etihad guest programme, baggage, 
+flight status, others
+
+(sun, 8 sep 2024 13:46:05) alvin vinod chandran : others
+textpostback: others
+
+(sun, 8 sep 2024 13:46:07) anonymous user : card: please choose from the below: etihad credit, special services, online 
+check-in , connect to agent
+
+(sun, 8 sep 2024 13:46:10) alvin vinod chandran : connect to agent
+textpostback: connect to agent
+
+(sun, 8 sep 2024 13:46:11) sarah : before i connect you to an agent, i'll try to resolve your issue. please type 
+your query below.
+

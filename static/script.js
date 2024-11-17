@@ -29,21 +29,58 @@ class ThemeManager {
   }
 }
 
-class ImageProcessor {
+class DataProcessor {
   constructor() {
-    this.uploadForm = document.getElementById("uploadForm");
-    this.processForm = document.getElementById("processForm");
-    this.processSection = document.getElementById("processSection");
-    this.imageResults = document.getElementById("imageResults");
-    this.originalImage = document.getElementById("originalImage");
-
-    this.initializeEventListeners();
+    this.currentDataType = null;
     this.themeManager = new ThemeManager();
+    this.initializeEventListeners();
   }
 
   initializeEventListeners() {
-    this.uploadForm.addEventListener("submit", (e) => this.handleUpload(e));
-    this.processForm.addEventListener("submit", (e) => this.handleProcess(e));
+    // Data type selection
+    const typeButtons = document.querySelectorAll(".btn-type");
+    typeButtons.forEach((button) => {
+      button.addEventListener("click", () =>
+        this.handleDataTypeSelection(button)
+      );
+    });
+
+    // Form submissions
+    document
+      .getElementById("uploadForm")
+      .addEventListener("submit", (e) => this.handleUpload(e));
+    document
+      .getElementById("imageProcessForm")
+      .addEventListener("submit", (e) => this.handleProcess(e));
+    document
+      .getElementById("textProcessForm")
+      .addEventListener("submit", (e) => this.handleProcess(e));
+  }
+
+  handleDataTypeSelection(button) {
+    // Remove selection from all buttons
+    document.querySelectorAll(".btn-type").forEach((btn) => {
+      btn.classList.remove("selected");
+    });
+
+    // Select current button
+    button.classList.add("selected");
+    this.currentDataType = button.dataset.type;
+
+    // Show upload section
+    document.getElementById("uploadSection").classList.remove("hidden");
+
+    // Update file input accept attribute
+    const fileInput = document.getElementById("file");
+    fileInput.accept =
+      this.currentDataType === "image" ? "image/*" : ".txt,.doc,.docx";
+
+    // Hide process sections and results
+    document.getElementById("imageProcessSection").classList.add("hidden");
+    document.getElementById("textProcessSection").classList.add("hidden");
+    document.getElementById("resultsSection").classList.add("hidden");
+    document.getElementById("originalContent").classList.add("hidden");
+    document.getElementById("processedContent").innerHTML = "";
   }
 
   async handleUpload(e) {
@@ -57,14 +94,26 @@ class ImageProcessor {
       }
 
       formData.append("file", fileInput.files[0]);
+      formData.append("type", this.currentDataType);
 
-      const response = await this.uploadImage(formData);
+      const response = await fetch("/upload/", {
+        method: "POST",
+        body: formData,
+      });
 
-      if (response.file_path) {
-        this.showProcessingOptions(response.file_path);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.file_path) {
+        this.showProcessingOptions(data.file_path);
+      } else {
+        throw new Error("No file path received from server");
       }
     } catch (error) {
-      this.showError(error.message);
+      this.showError(`Upload failed: ${error.message}`);
     }
   }
 
@@ -72,67 +121,166 @@ class ImageProcessor {
     e.preventDefault();
     try {
       const selectedActions = Array.from(
-        document.querySelectorAll('input[name="actions"]:checked')
+        document.querySelectorAll(
+          `#${this.currentDataType}ProcessForm input[name="actions"]:checked`
+        )
       ).map((cb) => cb.value);
 
       if (selectedActions.length === 0) {
         throw new Error("Please select at least one modification");
       }
 
+      const contentDisplay = document
+        .getElementById("originalContent")
+        .querySelector(".content-display");
+      const filePath =
+        this.currentDataType === "image"
+          ? contentDisplay.querySelector("img").dataset.path
+          : contentDisplay.dataset.path;
+
+      if (!filePath) {
+        throw new Error("No file path found");
+      }
+
       const formData = new FormData();
+      formData.append("file_path", filePath);
       selectedActions.forEach((action) => formData.append("actions", action));
+      formData.append("type", this.currentDataType);
 
-      const response = await this.processImage(formData);
+      const response = await fetch("/process/", {
+        method: "POST",
+        body: formData,
+      });
 
-      if (response.processed_images) {
-        this.displayProcessedImages(response.processed_images);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.error || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      if (data.processed_images && data.processed_images.length > 0) {
+        this.displayProcessedContent(data.processed_images);
+      } else {
+        throw new Error("No processed content received from server");
       }
     } catch (error) {
-      this.showError(error.message);
+      this.showError(`Processing failed: ${error.message}`);
     }
   }
 
-  async uploadImage(formData) {
-    const response = await fetch("/upload_image/", {
-      method: "POST",
-      body: formData,
-    });
-    return await response.json();
+  showProcessingOptions(filePath) {
+    // Hide both process sections initially
+    document.getElementById("imageProcessSection").classList.add("hidden");
+    document.getElementById("textProcessSection").classList.add("hidden");
+
+    // Show the appropriate process section
+    const processSection =
+      this.currentDataType === "image"
+        ? "imageProcessSection"
+        : "textProcessSection";
+    document.getElementById(processSection).classList.remove("hidden");
+
+    // Show results section and original content
+    document.getElementById("resultsSection").classList.remove("hidden");
+    const originalContent = document.getElementById("originalContent");
+    originalContent.classList.remove("hidden");
+    const contentDisplay = originalContent.querySelector(".content-display");
+
+    if (this.currentDataType === "image") {
+      contentDisplay.innerHTML = `<img src="${filePath}" alt="Original" class="image" data-path="${filePath}">`;
+    } else {
+      contentDisplay.dataset.path = filePath;
+      this.fetchAndDisplayText(filePath, contentDisplay);
+    }
   }
 
-  async processImage(formData) {
-    const response = await fetch("/process_image/", {
-      method: "POST",
-      body: formData,
-    });
-    return await response.json();
+  async fetchAndDisplayText(filePath, element) {
+    try {
+      const response = await fetch(`/view_content/?path=${filePath}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.content) {
+        element.textContent = data.content;
+      } else {
+        throw new Error("No content received from server");
+      }
+    } catch (error) {
+      this.showError(`Error loading text content: ${error.message}`);
+    }
   }
 
-  showProcessingOptions(imagePath) {
-    this.processSection.classList.remove("hidden");
-    this.originalImage.classList.remove("hidden");
-    this.originalImage.querySelector("img").src = imagePath;
-  }
+  displayProcessedContent(results) {
+    const container = document.getElementById("processedContent");
+    container.innerHTML = ""; // Clear previous results
 
-  displayProcessedImages(images) {
-    images.forEach((image) => {
+    results.forEach((result) => {
       const div = document.createElement("div");
-      div.className = "image-card";
-      div.innerHTML = `
-                <h3 class="image-title">${this.capitalizeFirst(
-                  image.action
-                )}</h3>
-                <img src="${image.file_path}" alt="${
-        image.action
-      }" class="image">
-                <p class="image-description">${image.description}</p>
-            `;
-      this.imageResults.appendChild(div);
+      div.className = "content-card";
+
+      if (this.currentDataType === "image") {
+        div.innerHTML = `
+          <h3 class="content-title">${this.capitalizeFirst(result.action)}</h3>
+          <img src="${result.file_path}" alt="${result.action}" class="image">
+          <p class="content-description">${result.description}</p>
+        `;
+      } else {
+        // Create changes summary
+        const changesList = result.changes
+          .map(
+            (change) =>
+              `<li><span class="original">${
+                change[0]
+              }</span> → <span class="modified">${
+                change[1] || "(removed)"
+              }</span></li>`
+          )
+          .join("");
+
+        const wordCountDiff =
+          result.word_count.after - result.word_count.before;
+        const wordCountText =
+          wordCountDiff === 0
+            ? "No change in word count"
+            : `Word count ${
+                wordCountDiff > 0 ? "increased" : "decreased"
+              } by ${Math.abs(wordCountDiff)}`;
+
+        div.innerHTML = `
+          <h3 class="content-title">${this.capitalizeFirst(result.action)}</h3>
+          <div class="content-stats">
+            <p class="word-count">${wordCountText}</p>
+            ${
+              result.changes.length > 0
+                ? `
+              <div class="changes-list">
+                <h4>Example Changes:</h4>
+                <ul>${changesList}</ul>
+              </div>
+            `
+                : ""
+            }
+          </div>
+          <div class="content-display">${result.content}</div>
+          <p class="content-description">${result.description}</p>
+        `;
+      }
+
+      container.appendChild(div);
     });
   }
 
   showError(message) {
-    alert(message); // You could replace this with a better error handling UI
+    console.error(message);
+    alert(message);
   }
 
   capitalizeFirst(string) {
@@ -142,5 +290,5 @@ class ImageProcessor {
 
 // Initialize the app when the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  new ImageProcessor();
+  new DataProcessor();
 });
