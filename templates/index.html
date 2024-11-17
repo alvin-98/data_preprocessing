@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Data Processing</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/static/styles.css" rel="stylesheet" />
+    <script>
+      // Immediately set initial theme to prevent flash of wrong theme
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="page-title">Image Processing Lab</h1>
+
+      <!-- Upload Image -->
+      <div class="card">
+        <form id="uploadForm">
+          <label class="form-label">Upload Image</label>
+          <input
+            type="file"
+            name="file"
+            id="file"
+            class="form-input"
+            required
+            accept="image/*"
+          />
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+      </div>
+
+      <!-- Process Image -->
+      <div id="processSection" class="card hidden">
+        <h2 class="section-title">Select Modifications</h2>
+        <form id="processForm">
+          <div class="checkbox-grid">
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="grayscale" />
+              <span>Grayscale</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="resize" />
+              <span>Resize (128x128)</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="flip" />
+              <span>Flip Vertically</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="rotate" />
+              <span>Rotate 45°</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-success">
+            Process Selected
+          </button>
+        </form>
+      </div>
+
+      <!-- Images Display -->
+      <div class="image-container" id="imageResults">
+        <div id="originalImage" class="image-card hidden">
+          <h3 class="image-title">Original Image</h3>
+          <img src="" alt="Original" class="image" />
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>
