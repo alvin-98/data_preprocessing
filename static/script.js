@@ -55,6 +55,9 @@ class DataProcessor {
     document
       .getElementById("textProcessForm")
       .addEventListener("submit", (e) => this.handleProcess(e));
+    document
+      .getElementById("audioProcessForm")
+      .addEventListener("submit", (e) => this.handleProcess(e));
   }
 
   handleDataTypeSelection(button) {
@@ -72,12 +75,18 @@ class DataProcessor {
 
     // Update file input accept attribute
     const fileInput = document.getElementById("file");
-    fileInput.accept =
-      this.currentDataType === "image" ? "image/*" : ".txt,.doc,.docx";
+    if (this.currentDataType === "image") {
+      fileInput.accept = "image/*";
+    } else if (this.currentDataType === "text") {
+      fileInput.accept = ".txt,.doc,.docx";
+    } else if (this.currentDataType === "audio") {
+      fileInput.accept = "audio/*,.wav,.mp3,.ogg";
+    }
 
-    // Hide process sections and results
+    // Hide all process sections and results
     document.getElementById("imageProcessSection").classList.add("hidden");
     document.getElementById("textProcessSection").classList.add("hidden");
+    document.getElementById("audioProcessSection").classList.add("hidden");
     document.getElementById("resultsSection").classList.add("hidden");
     document.getElementById("originalContent").classList.add("hidden");
     document.getElementById("processedContent").innerHTML = "";
@@ -133,10 +142,16 @@ class DataProcessor {
       const contentDisplay = document
         .getElementById("originalContent")
         .querySelector(".content-display");
-      const filePath =
-        this.currentDataType === "image"
-          ? contentDisplay.querySelector("img").dataset.path
-          : contentDisplay.dataset.path;
+
+      // Get file path based on data type
+      let filePath;
+      if (this.currentDataType === "image") {
+        filePath = contentDisplay.querySelector("img").dataset.path;
+      } else if (this.currentDataType === "audio") {
+        filePath = contentDisplay.querySelector("audio").dataset.path;
+      } else {
+        filePath = contentDisplay.dataset.path;
+      }
 
       if (!filePath) {
         throw new Error("No file path found");
@@ -176,15 +191,13 @@ class DataProcessor {
   }
 
   showProcessingOptions(filePath) {
-    // Hide both process sections initially
+    // Hide all process sections initially
     document.getElementById("imageProcessSection").classList.add("hidden");
     document.getElementById("textProcessSection").classList.add("hidden");
+    document.getElementById("audioProcessSection").classList.add("hidden");
 
     // Show the appropriate process section
-    const processSection =
-      this.currentDataType === "image"
-        ? "imageProcessSection"
-        : "textProcessSection";
+    const processSection = `${this.currentDataType}ProcessSection`;
     document.getElementById(processSection).classList.remove("hidden");
 
     // Show results section and original content
@@ -195,6 +208,14 @@ class DataProcessor {
 
     if (this.currentDataType === "image") {
       contentDisplay.innerHTML = `<img src="${filePath}" alt="Original" class="image" data-path="${filePath}">`;
+    } else if (this.currentDataType === "audio") {
+      contentDisplay.innerHTML = `
+        <audio controls class="audio-player" data-path="${filePath}">
+          <source src="${filePath}" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+        <div class="audio-info"></div>
+      `;
     } else {
       contentDisplay.dataset.path = filePath;
       this.fetchAndDisplayText(filePath, contentDisplay);
@@ -230,6 +251,37 @@ class DataProcessor {
         div.innerHTML = `
           <h3 class="content-title">${this.capitalizeFirst(result.action)}</h3>
           <img src="${result.file_path}" alt="${result.action}" class="image">
+          <p class="content-description">${result.description}</p>
+        `;
+      } else if (this.currentDataType === "audio") {
+        const durationChange = result.changes.duration_change.toFixed(2);
+        const amplitudeChange = result.changes.amplitude_change.toFixed(2);
+
+        div.innerHTML = `
+          <h3 class="content-title">${this.capitalizeFirst(result.action)}</h3>
+          <div class="audio-player-container">
+            <audio controls class="audio-player">
+              <source src="${result.file_path}" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+          <div class="content-stats">
+            <h4>Changes Made:</h4>
+            <ul>
+              <li>Duration: ${
+                durationChange > 0 ? "+" : ""
+              }${durationChange}s</li>
+              <li>Amplitude: ${
+                amplitudeChange > 0 ? "+" : ""
+              }${amplitudeChange}dB</li>
+            </ul>
+            <h4>Properties:</h4>
+            <ul>
+              <li>Duration: ${result.properties.duration.toFixed(2)}s</li>
+              <li>Sample Rate: ${result.properties.sample_rate}Hz</li>
+              <li>Channels: ${result.properties.channels}</li>
+            </ul>
+          </div>
           <p class="content-description">${result.description}</p>
         `;
       } else {

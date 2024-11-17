@@ -12,6 +12,11 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 import string
 import re
+from pydub import AudioSegment
+from pydub.effects import normalize
+import numpy as np
+from scipy.io import wavfile
+from scipy.signal import butter, filtfilt
 
 # Download all required NLTK data at once
 nltk_resources = ['punkt', 'stopwords', 'wordnet', 'omw-1.4', 'averaged_perceptron_tagger']
@@ -46,11 +51,20 @@ async def home(request: Request):
 @app.post("/upload/")
 async def upload_file(file: UploadFile, type: str = Form(...)):
     """
-    Handle file upload for both image and text files.
+    Handle file upload for image, text, and audio files.
     """
     file_path = os.path.join(UPLOAD_DIR, f"{uuid.uuid4()}_{file.filename}")
     with open(file_path, "wb") as f:
         f.write(await file.read())
+    
+    # Convert audio to WAV if it's an audio file
+    if type == "audio" and not file_path.lower().endswith('.wav'):
+        audio = AudioSegment.from_file(file_path)
+        wav_path = file_path.rsplit('.', 1)[0] + '.wav'
+        audio.export(wav_path, format='wav')
+        os.remove(file_path)  # Remove original file
+        file_path = wav_path
+        
     return {"status": "File uploaded successfully", "file_path": file_path}
 
 @app.get("/view_content/")
@@ -67,12 +81,14 @@ async def view_content(path: str):
 @app.post("/process/")
 async def process_content(file_path: str = Form(...), actions: List[str] = Form(...), type: str = Form(...)):
     """
-    Process either image or text content based on type.
+    Process either image, text, or audio content based on type.
     """
     if type == "image":
         return await process_image(file_path, actions)
-    else:
+    elif type == "text":
         return await process_text(file_path, actions)
+    else:
+        return await process_audio(file_path, actions)
 
 async def process_image(file_path: str, actions: List[str]):
     """
@@ -211,6 +227,167 @@ async def process_text(file_path: str, actions: List[str]):
         print(f"Error processing text: {str(e)}")
         return {"error": f"Error processing text: {str(e)}"}
 
+async def process_audio(file_path: str, actions: List[str]):
+    """
+    Process audio with selected modifications.
+    """
+    try:
+        processed_results = []
+        
+        for action in actions:
+            try:
+                # Load audio file
+                audio = AudioSegment.from_wav(file_path)
+                
+                # Store original properties for comparison
+                original_properties = {
+                    "duration": len(audio) / 1000,  # in seconds
+                    "sample_rate": audio.frame_rate,
+                    "channels": audio.channels,
+                    "max_amplitude": float(audio.max)
+                }
+                
+                if action == "normalize":
+                    processed_audio = normalize(audio)
+                    description = "Normalized audio volume to a standard level"
+                    
+                elif action == "noise_reduction":
+                    # Modified noise reduction for short audio files
+                    sample_rate, samples = wavfile.read(file_path)
+                    
+                    # Convert to mono if stereo
+                    if len(samples.shape) > 1:
+                        samples = samples.mean(axis=1)
+                    
+                    # Ensure minimum length for filtering
+                    min_length = 50  # minimum samples needed
+                    if len(samples) < min_length:
+                        # Pad the audio if too short
+                        pad_length = min_length - len(samples)
+                        samples = np.pad(samples, (0, pad_length), 'constant')
+                    
+                    nyquist = sample_rate // 2
+                    cutoff = 2000  # Cutoff frequency for noise reduction
+                    order = min(4, len(samples) // 4)  # Adjust filter order based on sample length
+                    b, a = butter(order, cutoff / nyquist, btype='low')
+                    filtered_samples = filtfilt(b, a, samples)
+                    
+                    # Trim back to original length if padded
+                    if len(samples) > len(filtered_samples):
+                        filtered_samples = filtered_samples[:len(samples)]
+                    
+                    processed_audio = AudioSegment(
+                        filtered_samples.astype(np.int16).tobytes(), 
+                        frame_rate=sample_rate,
+                        sample_width=2,  # 16-bit audio
+                        channels=1
+                    )
+                    description = "Reduced background noise using a low-pass filter"
+                    
+                elif action == "change_speed":
+                    processed_audio = audio.speedup(playback_speed=1.5)
+                    description = "Increased playback speed by 1.5x"
+                    
+                elif action == "low_pass_filter":
+                    sample_rate, samples = wavfile.read(file_path)
+                    
+                    # Convert to mono if stereo
+                    if len(samples.shape) > 1:
+                        samples = samples.mean(axis=1)
+                    
+                    # Ensure minimum length for filtering
+                    min_length = 50
+                    if len(samples) < min_length:
+                        pad_length = min_length - len(samples)
+                        samples = np.pad(samples, (0, pad_length), 'constant')
+                    
+                    nyquist = sample_rate // 2
+                    cutoff = 1000  # Cutoff frequency
+                    order = min(4, len(samples) // 4)
+                    b, a = butter(order, cutoff / nyquist, btype='low')
+                    filtered_samples = filtfilt(b, a, samples)
+                    
+                    processed_audio = AudioSegment(
+                        filtered_samples.astype(np.int16).tobytes(),
+                        frame_rate=sample_rate,
+                        sample_width=2,
+                        channels=1
+                    )
+                    description = "Applied low-pass filter to remove high frequencies"
+                    
+                elif action == "high_pass_filter":
+                    sample_rate, samples = wavfile.read(file_path)
+                    
+                    # Convert to mono if stereo
+                    if len(samples.shape) > 1:
+                        samples = samples.mean(axis=1)
+                    
+                    # Ensure minimum length for filtering
+                    min_length = 50
+                    if len(samples) < min_length:
+                        pad_length = min_length - len(samples)
+                        samples = np.pad(samples, (0, pad_length), 'constant')
+                    
+                    nyquist = sample_rate // 2
+                    cutoff = 500  # Cutoff frequency
+                    order = min(4, len(samples) // 4)
+                    b, a = butter(order, cutoff / nyquist, btype='high')
+                    filtered_samples = filtfilt(b, a, samples)
+                    
+                    processed_audio = AudioSegment(
+                        filtered_samples.astype(np.int16).tobytes(),
+                        frame_rate=sample_rate,
+                        sample_width=2,
+                        channels=1
+                    )
+                    description = "Applied high-pass filter to remove low frequencies"
+                    
+                elif action == "trim_silence":
+                    processed_audio = audio.strip_silence(
+                        silence_len=100,  # Reduced from 1000ms to 100ms for short audio
+                        silence_thresh=-50  # -50 dBFS
+                    )
+                    description = "Removed silent segments from the audio"
+
+                # Save processed audio
+                processed_path = os.path.join(UPLOAD_DIR, f"processed_{action}_{uuid.uuid4().hex}.wav")
+                processed_audio.export(processed_path, format='wav')
+                
+                # Get processed properties
+                processed_properties = {
+                    "duration": len(processed_audio) / 1000,  # in seconds
+                    "sample_rate": processed_audio.frame_rate,
+                    "channels": processed_audio.channels,
+                    "max_amplitude": float(processed_audio.max)
+                }
+                
+                # Calculate changes
+                changes = {
+                    "duration_change": processed_properties["duration"] - original_properties["duration"],
+                    "amplitude_change": processed_properties["max_amplitude"] - original_properties["max_amplitude"]
+                }
+
+                processed_results.append({
+                    "action": action,
+                    "file_path": processed_path,
+                    "description": description,
+                    "changes": changes,
+                    "properties": processed_properties
+                })
+
+            except Exception as e:
+                print(f"Error processing action {action}: {str(e)}")
+                continue
+
+        if not processed_results:
+            return {"error": "No successful processing results"}
+            
+        return {"processed_images": processed_results}
+        
+    except Exception as e:
+        print(f"Error processing audio: {str(e)}")
+        return {"error": f"Error processing audio: {str(e)}"}
+
 def get_image_description(action: str) -> str:
     """
     Return description for image processing actions.
@@ -234,5 +411,19 @@ def get_text_description(action: str) -> str:
         "remove_stopwords": "Removes common words (e.g., 'the', 'is', 'at') that often don't carry significant meaning.",
         "lemmatize": "Reduces words to their base or dictionary form (e.g., 'running' → 'run').",
         "stem": "Reduces words to their root form using the Porter Stemming algorithm."
+    }
+    return descriptions.get(action, "No description available.")
+
+def get_audio_description(action: str) -> str:
+    """
+    Return description for audio processing actions.
+    """
+    descriptions = {
+        "normalize": "Adjusts the volume to a standard level across the audio.",
+        "noise_reduction": "Reduces background noise while preserving the main audio.",
+        "change_speed": "Changes the playback speed without affecting the pitch.",
+        "low_pass_filter": "Removes high frequencies while keeping low frequencies.",
+        "high_pass_filter": "Removes low frequencies while keeping high frequencies.",
+        "trim_silence": "Removes silent segments from the audio."
     }
     return descriptions.get(action, "No description available.")

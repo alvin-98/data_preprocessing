@@ -31,6 +31,10 @@
             <span class="icon">📝</span>
             <span>Text Data</span>
           </button>
+          <button class="btn btn-type" data-type="audio">
+            <span class="icon">🎵</span>
+            <span>Audio Data</span>
+          </button>
         </div>
       </div>
 
@@ -109,6 +113,42 @@
             <label class="checkbox-label">
               <input type="checkbox" name="actions" value="stem" />
               <span>Stemming</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-success">
+            Process Selected
+          </button>
+        </form>
+      </div>
+
+      <!-- Process Section for Audio -->
+      <div id="audioProcessSection" class="card hidden">
+        <h2 class="section-title">Audio Modifications</h2>
+        <form id="audioProcessForm">
+          <div class="checkbox-grid">
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="normalize" />
+              <span>Normalize Volume</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="noise_reduction" />
+              <span>Noise Reduction</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="change_speed" />
+              <span>Change Speed (1.5x)</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="low_pass_filter" />
+              <span>Low Pass Filter</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="high_pass_filter" />
+              <span>High Pass Filter</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="actions" value="trim_silence" />
+              <span>Trim Silence</span>
             </label>
           </div>
           <button type="submit" class="btn btn-success">
